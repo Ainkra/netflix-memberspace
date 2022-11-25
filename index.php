@@ -55,20 +55,6 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
     } else {
         header("location: index.php?error=1&message='Email ou mot de passe invalide. Veuillez réessayer.'");
     }
-
-// Connexion
-
-
-
-
-
-
-
-
-
-// Connexion
-
-
 }
 ?>
 
