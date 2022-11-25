@@ -25,7 +25,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
 // Vérifier si l'adresse mail est valide
     if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header("location: inscription.php?error=1&message=Email invalide.");
+        header("location: inscription.php?error=1&message='Email invalide.'");
         exit();
     }
 // Vérifier si l'adresse mail existe dans la base de donnée ?
@@ -34,24 +34,29 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
     while($verifEmail = $dbEmailVerification->fetch()) {
         if($verifEmail['numberEmail'] != 1) {
-            header("location: index.php?error=1&message=Connexion impossible, ce compte n''existe pas.");
+            header("location: index.php?error=1&message='Connexion impossible, ce compte n''existe pas.'");
             exit();
         }
     }
 
 // Connexion
-    $cryptPassword = "kj?;+".sha1($password)."+!-;,";
+    $password = "kj?;+".sha1($password)."+!-;,";
 
     $req = $db->prepare("SELECT * FROM user WHEN email = ? AND password = ?");
     $req->execute([$email, $password]);
 
     while($user = $req->fetch()) {
         if($password == $user['password']) {
-            
+            $_SESSION["connect"] = 1;
+            $_SESSION['email'] = $user['email'];
+
+            header('location: index.php?success=1');
+            exit();
         } else {
-            header("location: index.php?error=1&message=Le mot de passe ou l'email est invalide. Veuillez réessayer.");
+            header("location: index.php?error=1&message='Le mot de passe ou l'email est invalide. Veuillez réessayer.'");
             exit();
         }
+
     }
 
 }
