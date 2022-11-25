@@ -54,7 +54,7 @@ if (!empty($_POST["email"]) && !empty($_POST['password']) && !empty($_POST['pass
     $finalRequest = $db->prepare("INSERT INTO user(email, password, secret) VALUE(?,?,?)");
     $finalRequest->execute([
             $email,
-            $password,
+            $cryptPassword,
             $secret,
     ]);
 // Afficher le message à l'utilisateur
